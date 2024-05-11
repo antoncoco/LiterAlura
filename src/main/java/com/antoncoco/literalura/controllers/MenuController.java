@@ -26,6 +26,10 @@ public class MenuController {
                 Book bookByAuthorName = bookService.getBookByAuthorName(authorName);
                 System.out.println(bookByAuthorName);
             }
+            case LIST_ALL -> {
+                System.out.println("Estos son los libros que has buscado:");
+                this.bookService.getAllBooksSearched().forEach(System.out::println);
+            }
         }
     }
 }
