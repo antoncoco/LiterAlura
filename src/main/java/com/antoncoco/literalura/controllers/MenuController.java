@@ -30,6 +30,7 @@ public class MenuController {
                 System.out.println("Estos son los libros que has buscado:");
                 this.bookService.getAllBooksSearched().forEach(System.out::println);
             }
+            case EXIT -> System.out.println("Hasta luego. ¡Vuela pronto!");
         }
     }
 }

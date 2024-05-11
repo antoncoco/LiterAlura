@@ -18,14 +18,18 @@ public class MainMenu {
         this.menuController = menuController;
     }
     public void init() {
-        System.out.println("=============MENU==============");
-        MenuOptions[] options = MenuOptions.values();
-        int numberOfOptions = options.length;
-        for(int i = 0; i < numberOfOptions; i++){
-            System.out.println((i + 1) + " - " + MenuOptions.values()[i].getOptionLabel());
-        }
-        System.out.println("Selecciona la opción deseada: ");
-        int option = scanner.nextInt();
-        menuController.executeMenuOption(MenuOptions.values()[option - 1]);
+        MenuOptions optionSelected;
+        do {
+            System.out.println("=============MENU==============");
+            MenuOptions[] options = MenuOptions.values();
+            int numberOfOptions = options.length;
+            for(int i = 0; i < numberOfOptions; i++){
+                System.out.println((i + 1) + " - " + options[i].getOptionLabel());
+            }
+            System.out.println("Selecciona la opción deseada: ");
+            int option = scanner.nextInt();
+            optionSelected = options[option - 1];
+            menuController.executeMenuOption(optionSelected);
+        } while (optionSelected != MenuOptions.EXIT);
     }
 }
