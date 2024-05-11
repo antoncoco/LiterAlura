@@ -11,7 +11,7 @@ public class JSONToObjectMapper implements IDataMapping {
     }
 
     @Override
-    public <T> T convertDataFromString(String data, Class<T> source) {
+    public <T> T convertDataFromString(String data, Class<T> source) throws RuntimeException {
         try {
             return mapper.readValue(data, source);
         } catch (JsonProcessingException e) {

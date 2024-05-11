@@ -16,8 +16,7 @@ public class GutendexClient {
         this.API_URL = "https://gutendex.com";
     }
 
-    public String queryToGutendexAPI(String path) {
-        System.out.println(API_URL);
+    public String queryToGutendexAPI(String path) throws RuntimeException{
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + path))
                 .GET().build();
