@@ -4,8 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum MenuOptions {
-    SEARCH_BY_TITLE("Búsqueda de libro por título"),
-    LIST_ALL("Lista de todos los libros"),
+    SEARCH_BOOK_BY_TITLE("Búsqueda de libro por título"),
+    LIST_ALL_BOOKS("Lista de todos los libros buscados"),
+    LIST_ALL_AUTHORS("Lista de los autores de todos los libros buscados"),
     EXIT("Salir de la aplicación");
 
     private final String optionLabel;
