@@ -21,6 +21,10 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
+    public List<Author> getAuthorsAliveInACertainYear(int year) {
+        return authorRepository.getAuthorsAliveInYear(year);
+    }
+
     static Author convertAuthorDTOToAuthor(AuthorDTO authorDTO) {
         return Author.builder()
                 .name(authorDTO.name())

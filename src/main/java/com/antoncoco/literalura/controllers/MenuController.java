@@ -1,12 +1,14 @@
 package com.antoncoco.literalura.controllers;
 
 import com.antoncoco.literalura.enums.MenuOptions;
+import com.antoncoco.literalura.models.Author;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.services.AuthorService;
 import com.antoncoco.literalura.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -36,6 +38,20 @@ public class MenuController {
             case LIST_ALL_AUTHORS -> {
                 System.out.println("Estos son los autores de los libros que has buscado:");
                 this.authorService.getAllAuthorsOfBooksSearched().forEach(System.out::println);
+            }
+            case LIST_AUTHORS_ALIVE -> {
+                System.out.println("Ingresa el año donde quieres saber qué autores estaban con vida:");
+                int year = scanner.nextInt();
+                List<Author> authorsAliveInACertainYear = this.authorService.getAuthorsAliveInACertainYear(year);
+                if (authorsAliveInACertainYear.isEmpty()) {
+                    System.out.println("NINGUNO de los autores de tus libros buscados estaba VIVO ese año");
+                } else if (authorsAliveInACertainYear.size() == 1) {
+                    System.out.println("Solo este autor estaba con vida en " + year + ":");
+                    System.out.println(authorsAliveInACertainYear.get(0));
+                } else {
+                    System.out.println("Estos autores estaban con vida en " + year + ":");
+                    authorsAliveInACertainYear.forEach(System.out::println);
+                }
             }
             case EXIT -> System.out.println("Hasta luego. ¡Vuela pronto!");
         }
