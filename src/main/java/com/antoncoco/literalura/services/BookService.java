@@ -25,6 +25,10 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public int countBooksByLanguage(String language) {
+        return bookRepository.countBooksByLanguage(language);
+    }
+
     public Book getBookByAuthorName(String authorName) {
         Optional<Book> optionalBook = this.bookRepository.findByAuthorName(authorName);
         if(optionalBook.isEmpty()) {

@@ -1,6 +1,6 @@
 package com.antoncoco.literalura.views;
 
-import com.antoncoco.literalura.controllers.MenuController;
+import com.antoncoco.literalura.controllers.MainMenuController;
 import com.antoncoco.literalura.enums.MenuOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,15 +8,17 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
-public class MainMenu {
+public class MainMenu implements IMenuView {
     private final Scanner scanner;
-    private final MenuController menuController;
+    private final MainMenuController mainMenuController;
 
     @Autowired
-    public MainMenu(MenuController menuController) {
+    public MainMenu(MainMenuController mainMenuController) {
         scanner = new Scanner(System.in);
-        this.menuController = menuController;
+        this.mainMenuController = mainMenuController;
     }
+
+    @Override
     public void init() {
         MenuOptions optionSelected;
         do {
@@ -29,7 +31,7 @@ public class MainMenu {
             System.out.println("Selecciona la opción deseada: ");
             int option = scanner.nextInt();
             optionSelected = options[option - 1];
-            menuController.executeMenuOption(optionSelected);
+            mainMenuController.executeMenuOption(optionSelected);
         } while (optionSelected != MenuOptions.EXIT);
     }
 }

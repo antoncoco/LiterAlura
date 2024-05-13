@@ -5,6 +5,8 @@ import com.antoncoco.literalura.models.Author;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.services.AuthorService;
 import com.antoncoco.literalura.services.BookService;
+import com.antoncoco.literalura.utils.IMenuOptionsExecution;
+import com.antoncoco.literalura.views.BooksByLanguageMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +14,24 @@ import java.util.List;
 import java.util.Scanner;
 
 @Component
-public class MenuController {
+public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
     private final Scanner scanner = new Scanner(System.in);
     private final BookService bookService;
     private final AuthorService authorService;
+    private final BooksByLanguageMenu booksByLanguageMenu;
 
     @Autowired
-    public MenuController(BookService bookService, AuthorService authorService) {
+    public MainMenuController(
+            BookService bookService,
+            AuthorService authorService,
+            BooksByLanguageMenu booksByLanguageMenu
+    ) {
         this.bookService = bookService;
         this.authorService = authorService;
+        this.booksByLanguageMenu = booksByLanguageMenu;
     }
 
+    @Override
     public void executeMenuOption(MenuOptions menuOption) {
         switch (menuOption) {
             case SEARCH_BOOK_BY_TITLE -> {
@@ -53,6 +62,7 @@ public class MenuController {
                     authorsAliveInACertainYear.forEach(System.out::println);
                 }
             }
+            case COUNT_BOOKS_BY_LANGUAGE -> this.booksByLanguageMenu.init();
             case EXIT -> System.out.println("Hasta luego. ¡Vuela pronto!");
         }
     }
