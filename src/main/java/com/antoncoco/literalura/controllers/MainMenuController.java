@@ -10,6 +10,7 @@ import com.antoncoco.literalura.views.BooksByLanguageMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -49,17 +50,22 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                 this.authorService.getAllAuthorsOfBooksSearched().forEach(System.out::println);
             }
             case LIST_AUTHORS_ALIVE -> {
-                System.out.println("Ingresa el año donde quieres saber qué autores estaban con vida:");
-                int year = scanner.nextInt();
-                List<Author> authorsAliveInACertainYear = this.authorService.getAuthorsAliveInACertainYear(year);
-                if (authorsAliveInACertainYear.isEmpty()) {
-                    System.out.println("NINGUNO de los autores de tus libros buscados estaba VIVO ese año");
-                } else if (authorsAliveInACertainYear.size() == 1) {
-                    System.out.println("Solo este autor estaba con vida en " + year + ":");
-                    System.out.println(authorsAliveInACertainYear.get(0));
-                } else {
-                    System.out.println("Estos autores estaban con vida en " + year + ":");
-                    authorsAliveInACertainYear.forEach(System.out::println);
+                try {
+                    System.out.println("Ingresa el año donde quieres saber qué autores estaban con vida:");
+                    int year = scanner.nextInt();
+                    List<Author> authorsAliveInACertainYear = this.authorService.getAuthorsAliveInACertainYear(year);
+                    if (authorsAliveInACertainYear.isEmpty()) {
+                        System.out.println("NINGUNO de los autores de tus libros buscados estaba VIVO ese año");
+                    } else if (authorsAliveInACertainYear.size() == 1) {
+                        System.out.println("Solo este autor estaba con vida en " + year + ":");
+                        System.out.println(authorsAliveInACertainYear.get(0));
+                    } else {
+                        System.out.println("Estos autores estaban con vida en " + year + ":");
+                        authorsAliveInACertainYear.forEach(System.out::println);
+                    }
+                } catch (InputMismatchException e){
+                    System.out.println("Entrada no valida. El año que ingreses debe ser un número entero.");
+                    scanner.nextLine(); //Flush scanner
                 }
             }
             case COUNT_BOOKS_BY_LANGUAGE -> this.booksByLanguageMenu.init();
