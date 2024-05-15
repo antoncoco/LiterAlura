@@ -2,6 +2,7 @@ package com.antoncoco.literalura.controllers;
 
 import com.antoncoco.literalura.enums.BookLanguageOptions;
 import com.antoncoco.literalura.enums.MenuOptions;
+import com.antoncoco.literalura.exceptions.UnexpectedMenuOptionException;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.services.BookService;
 import com.antoncoco.literalura.utils.IReusableSubMenuOptionsExecution;
@@ -19,7 +20,7 @@ public class BooksByLanguageMenuController implements IReusableSubMenuOptionsExe
     }
 
     @Override
-    public void executeMenuOption(MenuOptions mainMenuOption, BookLanguageOptions currentMenuOption) {
+    public void executeMenuOption(MenuOptions mainMenuOption, BookLanguageOptions currentMenuOption) throws UnexpectedMenuOptionException {
         String language = currentMenuOption.getLabel();
         String languageAbbreviation = currentMenuOption.getAbbreviation();
         switch (mainMenuOption) {
@@ -40,8 +41,9 @@ public class BooksByLanguageMenuController implements IReusableSubMenuOptionsExe
                 System.out.println("La cantidad de libros consultados que están en "
                         + language + " es: " + countBooksByLanguage);
             }
-            default -> System.out.println("Este submenú aún no está preparado para procesar " +
-                    "la opción seleccionada en el menú principal.");
+            default -> throw new UnexpectedMenuOptionException("Este submenú no está diseñado para trabajar con" +
+                    " la opción: " + mainMenuOption.getOptionLabel()
+                    + " del menú principal");
         }
     }
 }
