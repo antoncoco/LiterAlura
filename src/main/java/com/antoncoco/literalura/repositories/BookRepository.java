@@ -15,6 +15,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "ORDER BY book.id LIMIT 1")
     Optional<Book> findByAuthorName(String author);
 
+    Optional<Book> findByTitleContainsIgnoreCase(String title);
+
     int countBooksByLanguage(String language);
 
     List<Book> findBooksByLanguage(String language);

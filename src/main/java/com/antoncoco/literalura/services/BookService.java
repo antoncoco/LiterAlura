@@ -6,6 +6,7 @@ import com.antoncoco.literalura.dto.BooksDTO;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.repositories.BookRepository;
 import com.antoncoco.literalura.utils.JSONToObjectMapper;
+import com.antoncoco.literalura.utils.URLNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,19 +34,33 @@ public class BookService {
         return bookRepository.findBooksByLanguage(language);
     }
 
+    public Book getBookByTitle(String title) {
+        Optional<Book> optionalBook = this.bookRepository.findByTitleContainsIgnoreCase(title);
+        return optionalBook
+                .orElse(this.getAndSaveNewBookIfNotAlreadyPresent(optionalBook, title));
+    }
+
     public Book getBookByAuthorName(String authorName) {
         Optional<Book> optionalBook = this.bookRepository.findByAuthorName(authorName);
+        return optionalBook
+                .orElse(this.getAndSaveNewBookIfNotAlreadyPresent(optionalBook, authorName));
+    }
+
+    private Book getBookFromAPI(String searchParameter) {
+        String json = new GutendexClient()
+                .queryToGutendexAPI("/books/?search="
+                        + URLNormalizer.normalizeSearchParameterWithSpaces(searchParameter));
+        BooksDTO booksDTO = new JSONToObjectMapper().convertDataFromString(json, BooksDTO.class);
+        return this.convertBookDTOToBook(booksDTO.books().get(0));
+    }
+
+    private Book getAndSaveNewBookIfNotAlreadyPresent(Optional<Book> optionalBook, String searchParameter) {
         if(optionalBook.isEmpty()) {
-            Book bookFromAPI = this.getBookFromAPI(authorName);
+            Book bookFromAPI = this.getBookFromAPI(searchParameter);
             this.bookRepository.save(bookFromAPI);
             return bookFromAPI;
         }
         return optionalBook.get();
-    }
-    private Book getBookFromAPI(String searchParameter) {
-        String json = new GutendexClient().queryToGutendexAPI("/books/?search=" + searchParameter);
-        BooksDTO booksDTO = new JSONToObjectMapper().convertDataFromString(json, BooksDTO.class);
-        return this.convertBookDTOToBook(booksDTO.books().get(0));
     }
 
     Book convertBookDTOToBook(BookDTO bookDTO) {

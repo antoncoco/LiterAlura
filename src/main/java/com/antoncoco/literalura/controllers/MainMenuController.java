@@ -36,10 +36,10 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
     public void executeMenuOption(MenuOptions menuOption) {
         switch (menuOption) {
             case SEARCH_BOOK_BY_TITLE -> {
-                System.out.println("Ingresa el nombre del autor que deseas buscar:");
-                String authorName = scanner.nextLine();
-                Book bookByAuthorName = bookService.getBookByAuthorName(authorName);
-                System.out.println(bookByAuthorName);
+                System.out.println("Ingresa el título del libro que deseas buscar:");
+                String title = scanner.nextLine();
+                Book bookByTitle = bookService.getBookByTitle(title);
+                System.out.println(bookByTitle);
             }
             case LIST_ALL_BOOKS -> {
                 System.out.println("Estos son los libros que has buscado:");
