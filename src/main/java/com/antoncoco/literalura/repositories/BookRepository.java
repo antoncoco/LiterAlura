@@ -20,4 +20,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     int countBooksByLanguage(String language);
 
     List<Book> findBooksByLanguage(String language);
+
+    Optional<Book> findBookById(int id);
 }

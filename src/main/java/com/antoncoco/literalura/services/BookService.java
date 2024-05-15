@@ -61,7 +61,10 @@ public class BookService {
     private Book getAndSaveNewBookIfNotAlreadyPresent(Optional<Book> optionalBook, String searchParameter) throws BookNotFoundException {
         if(optionalBook.isEmpty()) {
             Book bookFromAPI = this.getBookFromAPI(searchParameter);
-            this.bookRepository.save(bookFromAPI);
+            Optional<Book> optionalBookIsAlreadyPersisted = this.bookRepository.findBookById(bookFromAPI.getId());
+            if (optionalBookIsAlreadyPersisted.isEmpty()) {
+                this.bookRepository.save(bookFromAPI);
+            }
             return bookFromAPI;
         }
         return optionalBook.get();
