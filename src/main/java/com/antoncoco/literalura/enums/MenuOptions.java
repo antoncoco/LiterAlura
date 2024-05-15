@@ -5,11 +5,12 @@ import lombok.Getter;
 
 @Getter
 public enum MenuOptions implements IEnumMenuOptionsMarker {
-    SEARCH_BOOK_BY_TITLE("Búsqueda de libro por título"),
-    LIST_ALL_BOOKS("Lista de todos los libros buscados"),
-    LIST_ALL_AUTHORS("Lista de los autores de todos los libros buscados"),
-    LIST_AUTHORS_ALIVE("Lista de autores de los libros buscados que estaban vivos en cierto año"),
-    COUNT_BOOKS_BY_LANGUAGE("Cantidad de los libros buscados que están en cierto idioma"),
+    SEARCH_BOOK_BY_TITLE("Buscar libro por título"),
+    LIST_ALL_BOOKS("Listar todos los libros buscados"),
+    LIST_ALL_AUTHORS("Listar los autores de todos los libros buscados"),
+    LIST_AUTHORS_ALIVE("Listar cuáles autores de los libros buscados estaban vivos en cierto año"),
+    LIST_BOOKS_BY_LANGUAGE("Listar los libros buscados que están en cierto idioma"),
+    COUNT_BOOKS_BY_LANGUAGE("Obtener la cantidad de libros buscados que están en cierto idioma"),
     EXIT("Salir de la aplicación");
 
     private final String optionLabel;

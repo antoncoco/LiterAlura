@@ -68,7 +68,7 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                     scanner.nextLine(); //Flush scanner
                 }
             }
-            case COUNT_BOOKS_BY_LANGUAGE -> this.booksByLanguageMenu.init();
+            case COUNT_BOOKS_BY_LANGUAGE, LIST_BOOKS_BY_LANGUAGE -> this.booksByLanguageMenu.init(menuOption);
             case EXIT -> System.out.println("Hasta luego. ¡Vuela pronto!");
         }
     }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
-public class MainMenu implements IMenuView {
+public class MainMenu {
     private final Scanner scanner;
     private final MainMenuController mainMenuController;
 
@@ -18,7 +18,6 @@ public class MainMenu implements IMenuView {
         this.mainMenuController = mainMenuController;
     }
 
-    @Override
     public void init() {
         MenuOptions optionSelected;
         do {
