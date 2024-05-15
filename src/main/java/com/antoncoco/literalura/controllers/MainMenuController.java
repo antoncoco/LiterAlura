@@ -1,6 +1,7 @@
 package com.antoncoco.literalura.controllers;
 
 import com.antoncoco.literalura.enums.MenuOptions;
+import com.antoncoco.literalura.exceptions.BookNotFoundException;
 import com.antoncoco.literalura.models.Author;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.services.AuthorService;
@@ -36,10 +37,14 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
     public void executeMenuOption(MenuOptions menuOption) {
         switch (menuOption) {
             case SEARCH_BOOK_BY_TITLE -> {
-                System.out.println("Ingresa el título del libro que deseas buscar:");
-                String title = scanner.nextLine();
-                Book bookByTitle = bookService.getBookByTitle(title);
-                System.out.println(bookByTitle);
+                try {
+                    System.out.println("Ingresa el título del libro que deseas buscar:");
+                    String title = scanner.nextLine();
+                    Book bookByTitle = bookService.getBookByTitle(title);
+                    System.out.println(bookByTitle);
+                } catch (BookNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             case LIST_ALL_BOOKS -> {
                 System.out.println("Estos son los libros que has buscado:");

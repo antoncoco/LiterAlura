@@ -3,6 +3,7 @@ package com.antoncoco.literalura.services;
 import com.antoncoco.literalura.client.GutendexClient;
 import com.antoncoco.literalura.dto.BookDTO;
 import com.antoncoco.literalura.dto.BooksDTO;
+import com.antoncoco.literalura.exceptions.BookNotFoundException;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.repositories.BookRepository;
 import com.antoncoco.literalura.utils.JSONToObjectMapper;
@@ -34,27 +35,30 @@ public class BookService {
         return bookRepository.findBooksByLanguage(language);
     }
 
-    public Book getBookByTitle(String title) {
+    public Book getBookByTitle(String title) throws BookNotFoundException {
         Optional<Book> optionalBook = this.bookRepository.findByTitleContainsIgnoreCase(title);
         return optionalBook
                 .orElse(this.getAndSaveNewBookIfNotAlreadyPresent(optionalBook, title));
     }
 
-    public Book getBookByAuthorName(String authorName) {
+    public Book getBookByAuthorName(String authorName) throws BookNotFoundException {
         Optional<Book> optionalBook = this.bookRepository.findByAuthorName(authorName);
         return optionalBook
                 .orElse(this.getAndSaveNewBookIfNotAlreadyPresent(optionalBook, authorName));
     }
 
-    private Book getBookFromAPI(String searchParameter) {
+    private Book getBookFromAPI(String searchParameter) throws BookNotFoundException {
         String json = new GutendexClient()
                 .queryToGutendexAPI("/books/?search="
                         + URLNormalizer.normalizeSearchParameterWithSpaces(searchParameter));
         BooksDTO booksDTO = new JSONToObjectMapper().convertDataFromString(json, BooksDTO.class);
+        if (booksDTO.books().isEmpty()) {
+            throw new BookNotFoundException("Ningún libro coincide con la búsqueda: " + searchParameter);
+        }
         return this.convertBookDTOToBook(booksDTO.books().get(0));
     }
 
-    private Book getAndSaveNewBookIfNotAlreadyPresent(Optional<Book> optionalBook, String searchParameter) {
+    private Book getAndSaveNewBookIfNotAlreadyPresent(Optional<Book> optionalBook, String searchParameter) throws BookNotFoundException {
         if(optionalBook.isEmpty()) {
             Book bookFromAPI = this.getBookFromAPI(searchParameter);
             this.bookRepository.save(bookFromAPI);
