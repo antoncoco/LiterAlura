@@ -40,6 +40,7 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                 try {
                     System.out.println("Ingresa el título del libro que deseas buscar:");
                     String title = scanner.nextLine();
+                    System.out.println("Buscando...");
                     Book bookByTitle = bookService.getBookByTitle(title);
                     System.out.println(bookByTitle);
                 } catch (BookNotFoundException e) {
