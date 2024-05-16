@@ -4,7 +4,9 @@ import com.antoncoco.literalura.client.GutendexClient;
 import com.antoncoco.literalura.dto.BookDTO;
 import com.antoncoco.literalura.dto.BooksDTO;
 import com.antoncoco.literalura.exceptions.BookNotFoundException;
+import com.antoncoco.literalura.models.Author;
 import com.antoncoco.literalura.models.Book;
+import com.antoncoco.literalura.repositories.AuthorRepository;
 import com.antoncoco.literalura.repositories.BookRepository;
 import com.antoncoco.literalura.utils.JSONToObjectMapper;
 import com.antoncoco.literalura.utils.URLNormalizer;
@@ -17,10 +19,12 @@ import java.util.Optional;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     public List<Book> getAllBooksSearched() {
@@ -63,11 +67,19 @@ public class BookService {
             Book bookFromAPI = this.getBookFromAPI(searchParameter);
             Optional<Book> optionalBookIsAlreadyPersisted = this.bookRepository.findBookById(bookFromAPI.getId());
             if (optionalBookIsAlreadyPersisted.isEmpty()) {
+                Optional<Integer> optionalPossibleAuthorId = getIdIfAuthorIsAlreadyStored(bookFromAPI.getAuthor());
+                optionalPossibleAuthorId
+                        .ifPresent(authorId -> bookFromAPI.getAuthor().setId(authorId));
                 this.bookRepository.save(bookFromAPI);
             }
             return bookFromAPI;
         }
         return optionalBook.get();
+    }
+
+    private Optional<Integer> getIdIfAuthorIsAlreadyStored(Author author) {
+        Optional<Author> optionalAuthor = this.authorRepository.getAuthorByName(author.getName());
+        return optionalAuthor.map(Author::getId);
     }
 
     Book convertBookDTOToBook(BookDTO bookDTO) {

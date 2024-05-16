@@ -8,12 +8,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 @ToString
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "author_id")
     @ToString.Exclude
+    @Setter
     private int id;
     @Column(name = "author_name", unique = true, nullable = false)
     private String name;
