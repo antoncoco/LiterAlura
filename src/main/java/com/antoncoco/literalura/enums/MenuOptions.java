@@ -11,6 +11,7 @@ public enum MenuOptions implements IEnumMenuOptionsMarker {
     LIST_AUTHORS_ALIVE("Listar cuáles autores de los libros buscados estaban vivos en cierto año"),
     LIST_BOOKS_BY_LANGUAGE("Listar los libros buscados que están en cierto idioma"),
     COUNT_BOOKS_BY_LANGUAGE("Obtener la cantidad de libros buscados que están en cierto idioma"),
+    STATISTICS_BOOKS_BY_LANGUAGE("Estadísticas de de descargas (por idioma) de los libros buscados"),
     EXIT("Salir de la aplicación");
 
     private final String optionLabel;
