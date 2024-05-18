@@ -13,6 +13,7 @@ import com.antoncoco.literalura.utils.URLNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +58,14 @@ public class BookService {
         return booksByLanguage.stream()
                 .mapToInt(Book::getDownloads)
                 .summaryStatistics();
+    }
+
+    public List<Book> getTopTenBooksByDownloads() {
+        List<Book> allBooks = this.getAllBooksSearched();
+        return allBooks.stream()
+                .sorted(Comparator.comparing(Book::getDownloads).reversed())
+                .limit(10)
+                .toList();
     }
 
     private Book getBookFromAPI(String searchParameter) throws BookNotFoundException {

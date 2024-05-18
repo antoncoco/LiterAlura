@@ -74,6 +74,22 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                     scanner.nextLine(); //Flush scanner
                 }
             }
+            case TOP_TEN_MOST_DOWNLOADED_BOOKS -> {
+                List<Book> topTenBooksByDownloads = this.bookService.getTopTenBooksByDownloads();
+                int realSizeOftopTenBooksByDownloads = topTenBooksByDownloads.size();
+                if (realSizeOftopTenBooksByDownloads == 0) {
+                    System.out.println("No has buscado ningún libro.\n" +
+                            "¡Empieza a buscar para ver el TOP 10 de libros con más descargas!");
+                } else if (realSizeOftopTenBooksByDownloads < 10) {
+                    System.out.println("¡No has buscado suficientes libros!\n" +
+                            "Debes buscar al menos " + (10 - realSizeOftopTenBooksByDownloads) + " libro(s) más " +
+                            "para poder generar un TOP 10 de los más descargados.");
+                } else {
+                    System.out.println("Estos son los 10 libros buscados que tienen MAYOR número de descargas:");
+                    topTenBooksByDownloads.forEach(System.out::println);
+                }
+
+            }
             case COUNT_BOOKS_BY_LANGUAGE, LIST_BOOKS_BY_LANGUAGE, STATISTICS_BOOKS_BY_LANGUAGE -> this.booksByLanguageMenu.init(menuOption);
             case EXIT -> System.out.println("Hasta luego. ¡Vuela pronto!");
         }
