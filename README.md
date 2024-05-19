@@ -31,7 +31,7 @@ Las variables de entorno a agregar son las siguientes.
 | GUTENDEX_DB_PASSWORD | *Contraseña de usuario de la BD*             |
 
 ## Opciones de la aplicación
-LiterAlura cuenta con un menú de usario en el cual se proveen las siguientes funcionalidades.
+LiterAlura cuenta con un menú de usuario en el cual se proveen las siguientes funcionalidades.
 1. Buscar libro por título
 2. Buscar libro por autor
 3. Listar todos los libros buscados
