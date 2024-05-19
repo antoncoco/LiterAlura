@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuthorService {
@@ -24,10 +23,6 @@ public class AuthorService {
 
     public List<Author> getAuthorsAliveInACertainYear(int year) {
         return authorRepository.getAuthorsAliveInYear(year);
-    }
-
-    public Optional<Author> getAuthorByName(String name) {
-        return this.authorRepository.getAuthorByName(name);
     }
 
     static Author convertAuthorDTOToAuthor(AuthorDTO authorDTO) {
