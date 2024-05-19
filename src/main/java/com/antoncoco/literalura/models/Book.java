@@ -3,15 +3,12 @@ package com.antoncoco.literalura.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "books")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString
 public class Book {
     @Id
     @Column(name = "book_id", nullable = false)
@@ -28,4 +25,11 @@ public class Book {
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
     )
     private Author author;
+
+    @Override
+    public String toString() {
+        return "Libro: " + this.title
+                + ".\n\tCuenta con " + this.downloads + " descargas.\n\t"
+                + this.author.toString();
+    }
 }
