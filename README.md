@@ -1,6 +1,7 @@
 # LiterAlura
 Challenge Java - Spring Boot que forma parte de la Formación **Java y Spring Boot G6 - ONE** del programa 
-[Oracle Next Education (ONE)](https://www.oracle.com/mx/education/oracle-next-education/).
+[Oracle Next Education (ONE)](https://www.oracle.com/mx/education/oracle-next-education/), el cual surge de la 
+colaboración de Oracle con Alura Latam.
 
 ## ¿Qué es LiterAlura?
 Es una aplicación en consola para realizar búsquedas de libros en la API de [Gutendex](https://gutendex.com). 
@@ -25,10 +26,13 @@ el IDE IntelliJ IDEA.
 
 Las variables de entorno a agregar son las siguientes.
 
-| Variable             | Valor                                        |
-|----------------------|----------------------------------------------|
-| GUTENDEX_DB_USER     | *Nombre de usuario de la Base de Datos (BD)* |
-| GUTENDEX_DB_PASSWORD | *Contraseña de usuario de la BD*             |
+| Variable             | Valor                                       |
+|----------------------|---------------------------------------------|
+| GUTENDEX_DB_HOST     | *IP de la Base de Datos (ej. localhost)*    |
+| GUTENDEX_DB_PORT     | *Puerto de la Base de Datos (ej. 5432)*     |
+| GUTENDEX_DB_NAME     | *Nombre de la Base de Datos*                |
+| GUTENDEX_DB_USER     | *Nombre de usuario de la Base de Datos*     |
+| GUTENDEX_DB_PASSWORD | *Contraseña de usuario de la Base de Datos* |
 
 ## Opciones de la aplicación
 LiterAlura cuenta con un menú de usuario en el cual se proveen las siguientes funcionalidades.
@@ -42,3 +46,9 @@ LiterAlura cuenta con un menú de usuario en el cual se proveen las siguientes f
 8. Estadísticas de de descargas (por idioma) de los libros buscados
 9. Top 10 de los libros buscados que tienen más descargas
 10. Salir de la aplicación
+
+Para las opciones relacionadas con *idiomas*, en cada una se cuenta con el siguiente submenú.
+1. Inglés
+2. Francés
+
+En cada opción, tanto del menú como del submenú, se debe introducir su número correspondiente para seleccionarla.
