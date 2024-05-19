@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public enum MenuOptions implements IEnumMenuOptionsMarker {
     SEARCH_BOOK_BY_TITLE("Buscar libro por título"),
+    SEARCH_BOOK_BY_AUTHOR("Buscar libro por autor"),
     LIST_ALL_BOOKS("Listar todos los libros buscados"),
     LIST_ALL_AUTHORS("Listar los autores de todos los libros buscados"),
     LIST_AUTHORS_ALIVE("Listar cuáles autores de los libros buscados estaban vivos en cierto año"),

@@ -41,8 +41,19 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                     System.out.println("Ingresa el título del libro que deseas buscar:");
                     String title = scanner.nextLine();
                     System.out.println("Buscando...");
-                    Book bookByTitle = bookService.getBookByTitle(title);
+                    Book bookByTitle = this.bookService.getBookByTitle(title);
                     System.out.println(bookByTitle);
+                } catch (BookNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            case SEARCH_BOOK_BY_AUTHOR -> {
+                try {
+                    System.out.println("Ingresa el nombre del autor para buscar uno de sus libros:");
+                    String authorName = scanner.nextLine();
+                    System.out.println("Buscando...");
+                    Book bookByAuthorName = this.bookService.getBookByAuthorName(authorName);
+                    System.out.println(bookByAuthorName);
                 } catch (BookNotFoundException e) {
                     System.out.println(e.getMessage());
                 }
