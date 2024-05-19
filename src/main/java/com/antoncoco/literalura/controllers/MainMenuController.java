@@ -2,6 +2,7 @@ package com.antoncoco.literalura.controllers;
 
 import com.antoncoco.literalura.enums.MenuOptions;
 import com.antoncoco.literalura.exceptions.BookNotFoundException;
+import com.antoncoco.literalura.exceptions.HTTPStatusCode5XXException;
 import com.antoncoco.literalura.models.Author;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.services.AuthorService;
@@ -43,7 +44,7 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                     System.out.println("Buscando...");
                     Book bookByTitle = this.bookService.getBookByTitle(title);
                     System.out.println(bookByTitle);
-                } catch (BookNotFoundException e) {
+                } catch (BookNotFoundException | HTTPStatusCode5XXException e) {
                     System.out.println(e.getMessage());
                 }
             }
@@ -54,7 +55,7 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                     System.out.println("Buscando...");
                     Book bookByAuthorName = this.bookService.getBookByAuthorName(authorName);
                     System.out.println(bookByAuthorName);
-                } catch (BookNotFoundException e) {
+                } catch (BookNotFoundException | HTTPStatusCode5XXException e) {
                     System.out.println(e.getMessage());
                 }
             }

@@ -4,6 +4,7 @@ import com.antoncoco.literalura.client.GutendexClient;
 import com.antoncoco.literalura.dto.BookDTO;
 import com.antoncoco.literalura.dto.BooksDTO;
 import com.antoncoco.literalura.exceptions.BookNotFoundException;
+import com.antoncoco.literalura.exceptions.HTTPStatusCode5XXException;
 import com.antoncoco.literalura.models.Author;
 import com.antoncoco.literalura.models.Book;
 import com.antoncoco.literalura.repositories.AuthorRepository;
@@ -41,13 +42,13 @@ public class BookService {
         return bookRepository.findBooksByLanguage(language);
     }
 
-    public Book getBookByTitle(String title) throws BookNotFoundException {
+    public Book getBookByTitle(String title) throws BookNotFoundException, HTTPStatusCode5XXException {
         Optional<Book> optionalBook = this.bookRepository.findByTitleContainsIgnoreCase(title);
         return optionalBook
                 .orElse(this.getAndSaveNewBookIfNotAlreadyPresent(optionalBook, title));
     }
 
-    public Book getBookByAuthorName(String authorName) throws BookNotFoundException {
+    public Book getBookByAuthorName(String authorName) throws BookNotFoundException, HTTPStatusCode5XXException {
         Optional<Book> optionalBook = this.bookRepository.findByAuthorName(authorName);
         return optionalBook
                 .orElse(this.getAndSaveNewBookIfNotAlreadyPresent(optionalBook, authorName));
@@ -68,10 +69,12 @@ public class BookService {
                 .toList();
     }
 
-    private Book getBookFromAPI(String searchParameter) throws BookNotFoundException {
+    private Book getBookFromAPI(String searchParameter) throws BookNotFoundException, HTTPStatusCode5XXException {
         String json = new GutendexClient()
                 .queryToGutendexAPI("/books/?search="
-                        + URLNormalizer.normalizeSearchParameterWithSpaces(searchParameter));
+                        + URLNormalizer.normalizeSearchParameterWithSpaces(searchParameter))
+                .orElseThrow(() ->
+                        new BookNotFoundException("Ningún resultado fue devuelto por la API."));
         BooksDTO booksDTO = new JSONToObjectMapper().convertDataFromString(json, BooksDTO.class);
         if (booksDTO.books().isEmpty()) {
             throw new BookNotFoundException("Ningún libro coincide con la búsqueda: " + searchParameter);
@@ -79,7 +82,8 @@ public class BookService {
         return this.convertBookDTOToBook(booksDTO.books().get(0));
     }
 
-    private Book getAndSaveNewBookIfNotAlreadyPresent(Optional<Book> optionalBook, String searchParameter) throws BookNotFoundException {
+    private Book getAndSaveNewBookIfNotAlreadyPresent(Optional<Book> optionalBook, String searchParameter)
+            throws BookNotFoundException, HTTPStatusCode5XXException {
         if(optionalBook.isEmpty()) {
             Book bookFromAPI = this.getBookFromAPI(searchParameter);
             Optional<Book> optionalBookIsAlreadyPersisted = this.bookRepository.findBookById(bookFromAPI.getId());
