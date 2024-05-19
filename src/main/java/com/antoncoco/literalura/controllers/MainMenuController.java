@@ -60,12 +60,23 @@ public class MainMenuController implements IMenuOptionsExecution<MenuOptions> {
                 }
             }
             case LIST_ALL_BOOKS -> {
-                System.out.println("Estos son los libros que has buscado:");
-                this.bookService.getAllBooksSearched().forEach(System.out::println);
+                List<Book> booksSearched = this.bookService.getAllBooksSearched();
+                if (booksSearched.isEmpty()) {
+                    System.out.println("No se han buscado libros. ¡Realiza tu primer búsqueda!");
+                } else {
+                    System.out.println("Estos son los libros que has buscado:");
+                    booksSearched.forEach(System.out::println);
+                }
             }
             case LIST_ALL_AUTHORS -> {
-                System.out.println("Estos son los autores de los libros que has buscado:");
-                this.authorService.getAllAuthorsOfBooksSearched().forEach(System.out::println);
+                List<Author> authorsOfBooksSearched = this.authorService.getAllAuthorsOfBooksSearched();
+                if (authorsOfBooksSearched.isEmpty()) {
+                    System.out.println("No hay autores que mostrar porque no se han buscado libros.\n" +
+                            "¡Realiza tu primer búsqueda!");
+                } else {
+                    System.out.println("Estos son los autores de los libros que has buscado:");
+                    authorsOfBooksSearched.forEach(System.out::println);
+                }
             }
             case LIST_AUTHORS_ALIVE -> {
                 try {
